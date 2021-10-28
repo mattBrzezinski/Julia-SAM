@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'Sample Julia SAM Template
+
+  '
+Resources:
+  JuliaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      PackageType: Image
+      MemorySize: 1028
+      Timeout: 60
+      ImageUri: juliafunction:julia1.6-v1
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./JuliaSAMExample
+      DockerTag: julia1.6-v1
+Outputs:
+  JuliaFunctionLambdaArn:
+    Description: Julia Lambda Function ARN
+    Value:
+      Fn::GetAtt:
+      - JuliaFunction
+      - Arn
+  JuliaFunctionRoleArn:
+    Description: Implicit IAM Role created for the Julia function
+    Value:
+      Fn::GetAtt:
+      - JuliaFunctionRole
+      - Arn
